@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: semantic_search_example_database
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_DB: semantic-search-example
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_pwd
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./data/database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d jada" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      
+networks:
+  default:
+    name: semantic_search_example_network
